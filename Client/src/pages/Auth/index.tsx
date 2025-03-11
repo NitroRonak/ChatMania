@@ -7,12 +7,12 @@ import AuthImage from "@/assets/login2.png"
 import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
 import { SIGNIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
+import { useNavigate } from "react-router-dom";
 const Auth = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<string>("signin");
-
+  const navigate: any = useNavigate();
 
   const validateSignIn = () => {
     if(!email.length) {
@@ -52,6 +52,14 @@ const Auth = () => {
       },{
         withCredentials: true
       })
+      if(res.data.user.id) {
+        if(res.data.user.profileSetup) {
+          navigate("/chat")
+        }
+        else {
+          navigate("/profile")
+        }
+      }
       console.log(res)
     }
     
@@ -64,6 +72,9 @@ const Auth = () => {
       },{
         withCredentials: true
       })
+      if(res.status === 201) {
+        navigate("/profile")
+      }
       console.log(res)
     }
   }
@@ -81,7 +92,7 @@ const Auth = () => {
             </p>
           </div>
           <div className="flex items-center justify-center w-full">
-            <Tabs className="w-3/4" value={activeTab} onValueChange={setActiveTab}>
+            <Tabs className="w-3/4" defaultValue="signin">
               <TabsList className="w-full bg-transparent rounded-none">
                 <TabsTrigger
                   value="signin"
