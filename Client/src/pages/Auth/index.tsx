@@ -4,17 +4,46 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import AuthImage from "@/assets/login2.png"
+import { toast } from "sonner";
+import { apiClient } from "@/lib/api-client";
+import { SIGNUP_ROUTE } from "@/utils/constants";
 const Auth = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("signin");
 
+
+  const validateSignUp = () => {
+    if(!email.length) {
+      toast.error("Email is required")
+      return false
+    }
+    if(!password.length) {
+      toast.error("Password is required") 
+      return false
+    }
+    if(!confirmPassword.length) {
+      toast.error("Confirm Password is required")
+      return false
+    }
+    if(password !== confirmPassword) {
+      toast.error("Password and Confirm Password do not match")
+      return false
+    }
+    return true
+  }
   const handleSignIn = async () => {
     
   }
   const handleSignUp = async () => {
-    
+    if(validateSignUp()) {
+      const res = await apiClient.post(SIGNUP_ROUTE, {
+        email,
+        password
+      })
+      console.log(res)
+    }
   }
   return (
     <div className="h-[100vh] w-[100vw] flex items-center justify-center">
