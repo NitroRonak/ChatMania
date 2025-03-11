@@ -41,6 +41,8 @@ const Auth = () => {
       const res = await apiClient.post(SIGNUP_ROUTE, {
         email,
         password
+      },{
+        withCredentials: true
       })
       console.log(res)
     }
