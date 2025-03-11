@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import AuthImage from "@/assets/login2.png"
 import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
-import { SIGNUP_ROUTE } from "@/utils/constants";
+import { SIGNIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 const Auth = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -14,6 +14,17 @@ const Auth = () => {
   const [activeTab, setActiveTab] = useState<string>("signin");
 
 
+  const validateSignIn = () => {
+    if(!email.length) {
+      toast.error("Email is required")
+      return false
+    }
+    if(!password.length) {
+      toast.error("Password is required") 
+      return false
+    }
+    return true
+  }
   const validateSignUp = () => {
     if(!email.length) {
       toast.error("Email is required")
@@ -34,6 +45,15 @@ const Auth = () => {
     return true
   }
   const handleSignIn = async () => {
+    if(validateSignIn()) {
+      const res = await apiClient.post(SIGNIN_ROUTE, {
+        email,
+        password
+      },{
+        withCredentials: true
+      })
+      console.log(res)
+    }
     
   }
   const handleSignUp = async () => {
