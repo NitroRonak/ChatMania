@@ -1,9 +1,8 @@
 import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-const maxAge = 3 * 24 * 60 * 60 + 1000;
 const createToken = (email,userId) => {
-    return jwt.sign({email,userId},process.env.JWT_SECRET_KEY,{expiresIn:maxAge});
+    return jwt.sign({email,userId},process.env.JWT_SECRET_KEY,{expiresIn:24 * 60 * 60 * 1000});
 }
 export const signup = async (req, res) => {
     try {
@@ -18,9 +17,11 @@ export const signup = async (req, res) => {
         const newUser = await User.create({email, password});
         const token = createToken(email,newUser._id);
         res.cookie("jwt",token,{
-            maxAge:maxAge,
+            maxAge:24 * 60 * 60 * 1000,
+            httpOnly: true, 
             secure:true,
             sameSite:"None",
+            path: "/"
         });
         return res.status(201).json({
             user:{
@@ -51,9 +52,11 @@ export const login = async (req, res) => {
        }
        const token = createToken(email,user._id);
        res.cookie("jwt",token,{
-        maxAge:maxAge,
+        maxAge:24 * 60 * 60 * 1000,
+        httpOnly: true, 
         secure:true,
         sameSite:"None",
+        path: "/"
        });
        return res.status(200).json({
         user:{
