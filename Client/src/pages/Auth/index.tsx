@@ -124,7 +124,7 @@ const Auth = () => {
                    onChange={(e) => setPassword(e.target.value)}
 
                 />
-                <Button className="w-full p-6 rounded-full" onClick={handleSignIn}>Sign In</Button>
+                <Button className="w-full p-6 rounded-full cursor-pointer" onClick={handleSignIn}>Sign In</Button>
               </TabsContent>
               <TabsContent value="signup"
                 className="flex flex-col gap-5 items-center justify-center"
@@ -148,7 +148,7 @@ const Auth = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)} 
                 />
-                <Button className="w-full p-6 rounded-full" onClick={handleSignUp}>Sign Up</Button>
+                <Button className="w-full p-6 rounded-full cursor-pointer" onClick={handleSignUp}>Sign Up</Button>
               </TabsContent>
             </Tabs>
           </div>

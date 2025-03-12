@@ -5,8 +5,8 @@ import Profile from "./pages/Profile";
 import { useAppStore } from "./store";
 import {useEffect, useState } from "react";
 import {Loader2} from "lucide-react"
-import axios from "axios";
 import { GET_USER_INFO } from "./utils/constants";
+import { apiClient } from "./lib/api-client";
 const PrivateRoute = ({ children }) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
@@ -24,7 +24,7 @@ const App = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try{
-        const res = await axios.get(GET_USER_INFO,{withCredentials:true});
+        const res = await apiClient.get(GET_USER_INFO,{withCredentials:true});
         if(res.status === 200 && res.data.id){
           setUserInfo(res.data);
         }
