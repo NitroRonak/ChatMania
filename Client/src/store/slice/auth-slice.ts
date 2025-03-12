@@ -2,11 +2,16 @@ interface UserInfo {
     id: string;
     email: string;
     profileSetup: boolean;
+    firstName?:string;
+    lastName?:string;
+    color?:string;
+    image?:string;
+
 }
 
 export interface AuthSlice {
     userInfo: UserInfo | undefined;
-    setUserInfo: (userInfo: UserInfo) => void;
+    setUserInfo: (userInfo: UserInfo | undefined) => void;
 }
 
 export const createAuthSlice = (set: (partialState: Partial<AuthSlice>) => void): AuthSlice => ({
