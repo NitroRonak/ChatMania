@@ -25,10 +25,18 @@ const App = () => {
     const fetchUserInfo = async () => {
       try{
         const res = await axios.get(GET_USER_INFO,{withCredentials:true});
-        console.log({res});
+        if(res.status === 200 && res.data.id){
+          setUserInfo(res.data);
+        }
+        else{
+          setUserInfo(undefined);
+        }
       }
       catch (error){
-        console.log({error});
+        setUserInfo(undefined);
+      }
+      finally{
+        setLoading(false)
       }
     }
     if(!userInfo){
