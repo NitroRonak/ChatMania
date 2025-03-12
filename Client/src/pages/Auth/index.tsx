@@ -82,8 +82,8 @@ const Auth = () => {
     }
   }
   return (
-    <div className="h-[100vh] w-[100vw] flex items-center justify-center">
-      <div className="h-[80vh] bg-white border-2 border-white text-opacity-90 shadow-2xl w-[80vw] md:w-[90vw] lg:w-[70vw] xl:w-[60vw] rounded-3xl grid xl:grid-cols-2 ">
+    <div className="bg-[#1b1c24] h-[100vh] w-[100vw] flex items-center justify-center text-white">
+      <div className="h-[80vh] bg-transparent border-2 border-white text-opacity-90 shadow-2xl w-[80vw] md:w-[90vw] lg:w-[70vw] xl:w-[60vw] rounded-3xl grid xl:grid-cols-2 ">
         <div className="flex flex-col items-center justify-center gap-10">
           <div className="flex flex-col items-center justify-center gap-5">
             <div className="flex items-center justify-center">
@@ -99,13 +99,13 @@ const Auth = () => {
               <TabsList className="w-full bg-transparent rounded-none">
                 <TabsTrigger
                   value="signin"
-                  className="data-[state=active]:bg-transparent text-black text-opacity-90 border-b-3 rounded-none w-full data-[state=active]:text-black data-[state=active]:border-purple-500 data-[state=active]:font-semibold p-3 transition-all duration-300 ease-in-out"
+                  className="data-[state=active]:bg-transparent text-white text-opacity-90 border-b-3 rounded-none w-full data-[state=active]:text-purple-500 data-[state=active]:border-purple-500 data-[state=active]:font-semibold p-3 transition-all duration-300 ease-in-out"
                 >
                   Sign In
                 </TabsTrigger>
                 <TabsTrigger
                   value="signup"
-                  className="data-[state=active]:bg-transparent text-black text-opacity-90 border-b-3 rounded-none w-full data-[state=active]:text-black data-[state=active]:border-purple-500 data-[state=active]:font-semibold p-3 transition-all duration-300 ease-in-out"
+                  className="data-[state=active]:bg-transparent text-white text-opacity-90 border-b-3 rounded-none w-full data-[state=active]:text-purple-500 data-[state=active]:border-purple-500 data-[state=active]:font-semibold p-3 transition-all duration-300 ease-in-out"
                 >
                   Sign Up
                 </TabsTrigger>
