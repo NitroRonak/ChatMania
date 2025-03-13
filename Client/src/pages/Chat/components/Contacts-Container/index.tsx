@@ -1,3 +1,5 @@
+import ProfileInfo from "./components/profile-info";
+
 const ContactsContainer = () => {
   return (
     <div className="relative w-full md:w-[35vw] lg:w-[30vw] bg-gray-800 xl:w-[25vw]  border-r-2 border-gray-200 h-full">
@@ -14,6 +16,7 @@ const ContactsContainer = () => {
             <Title text="Channels"/>
         </div>
       </div>
+      <ProfileInfo/>
     </div>
   )
 }
