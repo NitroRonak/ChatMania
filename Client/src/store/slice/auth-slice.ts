@@ -4,7 +4,7 @@ interface UserInfo {
     profileSetup: boolean;
     firstName?:string;
     lastName?:string;
-    color?:string;
+    color?:number;
     image?:string | null;
 
 }
