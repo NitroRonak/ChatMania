@@ -21,8 +21,10 @@ import { HOST, SEARCH_CONTACT_ROUTE } from "@/utils/constants";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { getColor } from "@/lib/utils";
+import { useAppStore } from "@/store";
 
 const NewDM = () => {
+    const {setSelectedChatType,setSelectedChatData} = useAppStore();
   const [openNewContactModal, setOpenNewContactModal] =
     useState<boolean>(false);
   const [searchedContact, setSearchedContact] = useState<Array<any>>([]);
@@ -47,6 +49,13 @@ const NewDM = () => {
       console.log(error);
     }
   };
+
+  const selectNewContact = (contact:any)=>{
+    setOpenNewContactModal(false);
+    setSelectedChatType("contact");
+    setSelectedChatData(contact);
+    setSearchedContact([]);
+  }
   return (
     <>
       <TooltipProvider>
@@ -84,6 +93,7 @@ const NewDM = () => {
                 <div
                   key={contact._id}
                   className="flex items-center gap-5 cursor-pointer"
+                  onClick={()=>selectNewContact(contact)}
                 >
                   <div className="w-12 h-12 relative">
                     <Avatar className="h-12 w-12 rounded-full overflow-hidden">
