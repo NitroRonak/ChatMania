@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import ContactRoutes from "./routes/ContactRoutes.js";
+import setupSocket from "./socket.js";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
