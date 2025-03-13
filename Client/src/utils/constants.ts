@@ -7,3 +7,5 @@ export const GET_USER_INFO:string = `${AUTH_ROUTES}/user-info`
 export const UPDATE_PROFILE_ROUTE:string = `${AUTH_ROUTES}/update-profile`
 
 export const UPDATE_PROFILE_IMAGE_ROUTE:string = `${AUTH_ROUTES}/update-profile-image`
+
+export const REMOVE_PROFILE_IMAGE_ROUTE:string = `${AUTH_ROUTES}/remove-profile-image`

@@ -5,7 +5,7 @@ interface UserInfo {
     firstName?:string;
     lastName?:string;
     color?:string;
-    image?:string;
+    image?:string | null;
 
 }
 

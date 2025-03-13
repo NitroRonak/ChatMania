@@ -7,7 +7,7 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
-import { HOST, UPDATE_PROFILE_IMAGE_ROUTE, UPDATE_PROFILE_ROUTE } from "@/utils/constants";
+import { HOST, REMOVE_PROFILE_IMAGE_ROUTE, UPDATE_PROFILE_IMAGE_ROUTE, UPDATE_PROFILE_ROUTE } from "@/utils/constants";
 import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const { userInfo,setUserInfo } = useAppStore();
@@ -75,8 +75,15 @@ const Profile = () => {
   const handleFileInputClick = ()=>{
     fileUploadRef.current.click();
   };
-  const handleImageDelete = ()=>{
-    
+  const handleImageDelete = async ()=>{
+    const res = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE,{
+      withCredentials:true
+    })
+    if(res.status === 200 && res.data){
+      setImage(null);
+      setUserInfo({...userInfo,image:null})
+      toast.success("Image removed successfully.");
+    }
   }
   const handleImageChange = async (event)=>{
     const file = event.target.files[0];
