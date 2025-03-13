@@ -1,6 +1,7 @@
 import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import {renameSync,unlinkSync} from "fs";
 const createToken = (email,userId) => {
     return jwt.sign({email,userId},process.env.JWT_SECRET_KEY,{expiresIn:24 * 60 * 60 * 1000});
 }
@@ -122,5 +123,53 @@ export const updateProfile = async (req,res)=>{
         })
     } catch (error) {
         
+    }
+}
+
+export const updateProfileImage = async (req,res)=>{
+    try {
+        if(!req.file){
+            return res.status(400).send("Image is required");
+        }
+        const date = new Date();
+        let fileName = `${date.getTime()}-${req.file.originalname}`;
+        let filePath = `uploads/profiles/${fileName}`;
+        renameSync(req.file.path,filePath);
+        const userData = await User.findByIdAndUpdate(req.userId,{
+            image:filePath
+        },{
+            new:true,
+            runValidators:true
+        })
+        return res.status(200).json({
+            image:userData.image,
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send("Internal Server Error");
+
+    }
+}
+
+export const removeProfileImage = async (req,res)=>{
+    try {
+        const userData = await User.findByIdAndUpdate(req.userId,{
+            image:null
+        },{
+            new:true,
+            runValidators:true
+        })
+        return res.status(200).json({
+            id:userData._id,
+            email:userData.email,
+            profileSetup:userData.profileSetup,
+            firstName:userData.firstName,
+            lastName:userData.lastName,
+            image:userData.image,
+            color:userData.color
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send("Internal Server Error");
     }
 }
