@@ -20,6 +20,8 @@ app.use(express.json());
 app.use("/api/auth",AuthRoutes);
 app.use("/api/contacts",ContactRoutes);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+setupSocket(server);
