@@ -1,4 +1,5 @@
 import {Server as SocketIOServer} from "socket.io"
+import { Message } from "./models/MessagesModel.js";
 const setupSocket = (server) => {
     const io = new SocketIOServer(server,{
         cors:{
@@ -9,12 +10,28 @@ const setupSocket = (server) => {
     });
     const userSocketMap = new Map();
     const disconnect = (socket) => {
-        console.log(`User disconnected: ${socket.id}`);
+        console.log(`Client disconnected: ${socket.id}`);
         for(const [userId,socketId] of userSocketMap){
             if(socketId === socket.id){
                 userSocketMap.delete(userId);
                 break;
             }
+        }
+    }
+
+    const sendMessage = async(message)=>{
+        const senderSocketId = userSocketMap.get(message.sender);
+        const recepientSocketId = userSocketMap.get(message.recepient);
+
+        const createMessage = await Message.create(message);
+
+        const messageData = await Message.findById(createMessage._id).populate("sender","_id email firstName lastName image color").populate("recepient","_id email firstName lastName image color");
+
+        if(recepientSocketId){
+            io.to(recepientSocketId).emit("receiveMessage",messageData);
+        }
+        if(senderSocketId){
+            io.to(senderSocketId).emit("receiveMessage",messageData);
         }
     }
     io.on("connection",(socket)=>{
@@ -26,6 +43,7 @@ const setupSocket = (server) => {
         else{
             console.log("User Id not provided during connection");
         }
+        socket.on("sendMessage",sendMessage);
         socket.on("disconnect",()=>disconnect(socket))
     })
 }
