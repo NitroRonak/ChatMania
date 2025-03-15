@@ -15,4 +15,5 @@ export const LOGOUT_ROUTE:string = `${AUTH_ROUTES}/logout`
 
 export const SEARCH_CONTACT_ROUTE:string = `${CONTACT_ROUTES}/search`   
 
-export const GET_MESSAGES_ROUTE:string = `${CONTACT_ROUTES}/get-messages`
+export const MESSAGE_ROUTES:string = `/api/messages`
+export const GET_MESSAGES_ROUTE:string = `${MESSAGE_ROUTES}/get-messages`
