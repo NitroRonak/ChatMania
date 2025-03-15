@@ -15,6 +15,8 @@ const MessageContainer = () => {
     userInfo,
     selectedChatData,
     setSelectedChatMessages,
+    setIsDownloading,
+    setFileDownloadProgress
   } = useAppStore();
 
   useEffect(() => {
@@ -51,9 +53,15 @@ const MessageContainer = () => {
   };
 
   const DownloadFile = async (fileUrl:any) => {
+    setIsDownloading(true);
+    setFileDownloadProgress(0);
     const response = await apiClient.get(`${HOST}/${fileUrl}`,{
       responseType: "blob",
       withCredentials: true,
+      onDownloadProgress: (progressEvent:any) => {
+        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        setFileDownloadProgress(progress);
+      }
     })
     const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement("a");
@@ -63,6 +71,8 @@ const MessageContainer = () => {
     link.click();
     link.remove();
     window.URL.revokeObjectURL(urlBlob);
+    setIsDownloading(false);
+    setFileDownloadProgress(0);
   }
   const renderMessages = () => {
     let lastDate: any = null;
