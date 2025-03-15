@@ -6,4 +6,18 @@ export const  createChatSlice =  (set:any,get:any) => ({
     setSelectedChatData: (selectedChatData:any)=> set({selectedChatData}),
     setSelectedChatMessages: (selectedChatMessages:any[])=> set({selectedChatMessages}),
     closeChat: ()=> set({selectedChatType:undefined,selectedChatData:undefined,selectedChatMessages:[]}),
+    addMessage:(message)=>{
+        const selectedChatMessages = get().selectedChatMessages;
+        const selectedChatType = get().selectedChatType;
+        set({
+            selectedChatMessages:[
+                ...selectedChatMessages,
+                {
+                    ...message,
+                    recepient:selectedChatType==="channel" ? message.recepient : message.recepient._id,
+                    sender:selectedChatType==="channel" ? message.sender : message.sender._id,
+                }
+            ]
+        })
+    }
 })
