@@ -1,19 +1,43 @@
+import { useEffect, useState } from "react";
 import NewDM from "./components/new-dm";
 import ProfileInfo from "./components/profile-info";
+import { apiClient } from "@/lib/api-client";
+import { GET_CONTACTS_FOR_DM_LIST_ROUTE } from "@/utils/constants";
 
+import ContactList from "@/components/contact-list";
+import { useAppStore } from "@/store";
 const ContactsContainer = () => {
+  const {directMessagesContacts,setDirectMessagesContacts} = useAppStore();
+  useEffect(()=>{
+    const getContacts = async () => {
+      try {
+        const response = await apiClient.get(GET_CONTACTS_FOR_DM_LIST_ROUTE,{
+          withCredentials:true
+        })
+        if(response.status === 200 && response.data.contacts){
+          setDirectMessagesContacts(response.data.contacts)
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getContacts();
+  },[])
   return (
     <div className="relative w-full md:w-[35vw] lg:w-[30vw] bg-gray-800 xl:w-[25vw]  border-r-2 border-gray-200 h-full">
       <div className="pt-3">
         <Logo/>
       </div>
-      <div className="my-5">
+      <div className="my-5 px-2">
         <div className="flex items-center justify-between pr-10">
             <Title text="Direct Messages"/>
             <NewDM/>
         </div>
+        <div className="max-h-[30vh] overflow-y-auto scrollbar-hidden px-2">
+          <ContactList contacts={directMessagesContacts} isChannel={false}/>
+        </div>
       </div>
-      <div className="my-5">
+      <div className="my-5 px-2">
         <div className="flex items-center justify-between pr-10">
             <Title text="Channels"/>
         </div>
