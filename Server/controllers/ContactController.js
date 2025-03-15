@@ -1,5 +1,6 @@
 import User from "../models/UserModel.js";
 import { Message } from "../models/MessagesModel.js";
+import mongoose from "mongoose";
 export const searchContact = async(req, res) => {
     const { searchTerm } = req.body;
     if(searchTerm === undefined || searchTerm === null) {
