@@ -4,11 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { useAppStore } from "@/store";
 import { useSocket } from "@/context/SocketContext";
+import { apiClient } from "@/lib/api-client";
+import { UPLOAD_FILE_ROUTE } from "@/utils/constants";
 const MessageBar = () => {
   const {selectedChatData,selectedChatType,userInfo}=useAppStore();
   const socket = useSocket();
   const [message, setMessage] = useState<string>("");
   const emojiRef = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<any>(null);
   const [emojiPickerOpen, setEmojiPickerOpen] = useState<boolean>(false);
   useEffect(() => {
     function handleClickOutside(event: any) {
@@ -33,6 +36,36 @@ const MessageBar = () => {
       })
     }
   };
+  const handleAttachmentClick = () => {
+    if(fileRef.current){
+      fileRef.current.click();
+    }
+  }
+  const handleAttachmentChange = async(e:any) => {
+    const file = e.target.files[0];
+    if(file){
+      const formData = new FormData();
+      formData.append("file",file);
+      try {
+        const response = await apiClient.post(UPLOAD_FILE_ROUTE,formData,{
+          withCredentials:true,
+        });
+        if(response.status===200 && response.data){
+          if(selectedChatType==="contact"){
+            socket.emit("sendMessage",{
+              sender:userInfo?.id,
+              content:undefined,
+              recepient:selectedChatData._id,
+              messageType:"file",
+              fileUrl:response.data.filePath,
+            })
+          }
+        }
+      } catch (error) {
+        
+      }
+    }
+  }
   return (
     <div className="h-[10vh] border-t-2 border-[#2f303b] flex justify-center items-center px-8 mb-6 gap-6">
       <div className="flex-1 bg-[#d6d6d657] flex rounded-md items-center gap-5 pr-5">
@@ -43,9 +76,10 @@ const MessageBar = () => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button className="bg-transparent cursor-pointer p-2">
+        <button className="bg-transparent cursor-pointer p-2" onClick={handleAttachmentClick}>
           <GrAttachment className="text-2xl text-white hover:text-[#b98fc5] duration-200 transition-all" />
         </button>
+        <input type="file" ref={fileRef} className="hidden" onChange={handleAttachmentChange}/>
         <div className="relative">
           <button
             className="bg-transparent cursor-pointer "
