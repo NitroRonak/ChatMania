@@ -14,3 +14,5 @@ export const REMOVE_PROFILE_IMAGE_ROUTE:string = `${AUTH_ROUTES}/remove-profile-
 export const LOGOUT_ROUTE:string = `${AUTH_ROUTES}/logout`
 
 export const SEARCH_CONTACT_ROUTE:string = `${CONTACT_ROUTES}/search`   
+
+export const GET_MESSAGES_ROUTE:string = `${CONTACT_ROUTES}/get-messages`
