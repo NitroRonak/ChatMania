@@ -6,6 +6,7 @@ import { GET_CONTACTS_FOR_DM_LIST_ROUTE } from "@/utils/constants";
 
 import ContactList from "@/components/contact-list";
 import { useAppStore } from "@/store";
+import CreateChannel from "./components/create-channel";
 const ContactsContainer = () => {
   const {directMessagesContacts,setDirectMessagesContacts} = useAppStore();
   useEffect(()=>{
@@ -40,6 +41,7 @@ const ContactsContainer = () => {
       <div className="my-5 px-2">
         <div className="flex items-center justify-between pr-10">
             <Title text="Channels"/>
+            <CreateChannel/>
         </div>
       </div>
       <ProfileInfo/>
