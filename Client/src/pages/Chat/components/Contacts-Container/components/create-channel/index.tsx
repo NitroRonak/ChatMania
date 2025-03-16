@@ -14,13 +14,14 @@ import {
   import { useEffect, useState } from "react";
   import { FaPlus } from "react-icons/fa";
   import { apiClient } from "@/lib/api-client";
-  import { GET_ALL_CONTACTS_ROUTE, SEARCH_CONTACT_ROUTE } from "@/utils/constants";
+  import { CREATE_CHANNEL_ROUTE, GET_ALL_CONTACTS_ROUTE } from "@/utils/constants";
   import { useAppStore } from "@/store";
 import { Button } from "@/components/ui/button";
 import MultipleSelector from "@/components/ui/multipleselect";
+import { toast } from "sonner";
   
   const CreateChannel = () => {
-      const {setSelectedChatType,setSelectedChatData} = useAppStore();
+      const {setSelectedChatType,setSelectedChatData,addChannel} = useAppStore();
     const [newChannelModal, setNewChannelModal] =
       useState<boolean>(false);
     const [searchedContact, setSearchedContact] = useState<Array<any>>([]);
@@ -47,9 +48,23 @@ import MultipleSelector from "@/components/ui/multipleselect";
   
     const createChannel = async () => {
         try {
-            
-        } catch (error) {
-            
+            if(channelName.length > 0 && selectedContacts.length > 0){
+                const response = await apiClient.post(CREATE_CHANNEL_ROUTE,{
+                    name:channelName,
+                    members:selectedContacts.map((contact:any)=>contact.value)
+                },{
+                    withCredentials:true
+                })
+                if(response.status === 201 && response.data.channel){
+                    toast.success(response.data.message);
+                    setChannelName("");
+                    setSelectedContacts([]);
+                    setNewChannelModal(false);
+                    addChannel(response.data.channel);
+                }
+            }
+        } catch (error:any) {
+            toast.error(error.response.data.message);
         }
     }
     return (
