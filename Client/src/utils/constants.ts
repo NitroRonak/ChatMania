@@ -23,3 +23,6 @@ export const GET_CONTACTS_FOR_DM_LIST_ROUTE:string = `${CONTACT_ROUTES}/get-cont
 export const UPLOAD_FILE_ROUTE:string = `${MESSAGE_ROUTES}/upload-file`
 
 export const GET_ALL_CONTACTS_ROUTE:string = `${CONTACT_ROUTES}/get-all-contacts`
+
+export const CHANNEL_ROUTES:string = `/api/channel`
+export const CREATE_CHANNEL_ROUTE:string = `${CHANNEL_ROUTES}/create-channel`
