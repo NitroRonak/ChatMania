@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import NewDM from "./components/new-dm";
 import ProfileInfo from "./components/profile-info";
 import { apiClient } from "@/lib/api-client";
-import { GET_CONTACTS_FOR_DM_LIST_ROUTE } from "@/utils/constants";
+import { GET_CONTACTS_FOR_DM_LIST_ROUTE, GET_USER_CHANNELS_ROUTE } from "@/utils/constants";
 
 import ContactList from "@/components/contact-list";
 import { useAppStore } from "@/store";
 import CreateChannel from "./components/create-channel";
+import { toast } from "sonner";
 const ContactsContainer = () => {
-  const {directMessagesContacts,setDirectMessagesContacts,channels} = useAppStore();
+  const {directMessagesContacts,setDirectMessagesContacts,channels,setChannels} = useAppStore();
   useEffect(()=>{
     const getContacts = async () => {
       try {
@@ -22,7 +23,21 @@ const ContactsContainer = () => {
         console.error(error);
       }
     }
+    const getChannels = async () => {
+      try {
+        const response = await apiClient.get(GET_USER_CHANNELS_ROUTE,{
+          withCredentials:true
+        })
+        if(response.status === 200 && response.data.channels){
+          setChannels(response.data.channels)
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to get channels");
+      }
+    }
     getContacts();
+    getChannels();
   },[])
   return (
     <div className="relative w-full md:w-[35vw] lg:w-[30vw] bg-gray-800 xl:w-[25vw]  border-r-2 border-gray-200 h-full">
