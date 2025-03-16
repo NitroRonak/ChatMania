@@ -27,3 +27,5 @@ export const GET_ALL_CONTACTS_ROUTE:string = `${CONTACT_ROUTES}/get-all-contacts
 export const CHANNEL_ROUTES:string = `/api/channel`
 export const CREATE_CHANNEL_ROUTE:string = `${CHANNEL_ROUTES}/create-channel`
 export const GET_USER_CHANNELS_ROUTE:string = `${CHANNEL_ROUTES}/get-user-channels`
+
+export const GET_CHANNEL_MESSAGES_ROUTE:string = `${CHANNEL_ROUTES}/get-channel-messages`
