@@ -64,7 +64,7 @@ import { toast } from "sonner";
                 }
             }
         } catch (error:any) {
-            toast.error(error.response.data.message);
+            toast.error("Failed to create channel");
         }
     }
     return (
