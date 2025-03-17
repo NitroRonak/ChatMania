@@ -47,38 +47,46 @@ const Auth = () => {
   }
   const handleSignIn = async () => {
     if(validateSignIn()) {
-      const res = await apiClient.post(SIGNIN_ROUTE, {
-        email,
-        password
-      },{
-        withCredentials: true
-      })
-      if(res.data.user.id) {
-        setUserInfo(res.data.user);
-        if(res.data.user.profileSetup) {
-          navigate("/chat")
+      try {
+        const res = await apiClient.post(SIGNIN_ROUTE, {
+          email,
+          password
+        },{
+          withCredentials: true
+        })
+        if(res.data.user.id) {
+          setUserInfo(res.data.user);
+          if(res.data.user.profileSetup) {
+            navigate("/chat")
+          }
+          else {
+            navigate("/profile")
+          }
         }
-        else {
-          navigate("/profile")
-        }
+      } catch (error) {
+        console.log(error)
+        toast.error("Something went wrong while signing in.")
       }
-      console.log(res)
     }
     
   }
   const handleSignUp = async () => {
     if(validateSignUp()) {
-      const res = await apiClient.post(SIGNUP_ROUTE, {
-        email,
-        password
-      },{
-        withCredentials: true
-      })
-      if(res.status === 201) {
-        setUserInfo(res.data.user);
-        navigate("/profile")
+      try {
+        const res = await apiClient.post(SIGNUP_ROUTE, {
+          email,
+          password
+        },{
+          withCredentials: true
+        })
+        if(res.status === 201) {
+          setUserInfo(res.data.user);
+          navigate("/profile")
+        }
+      } catch (error) {
+        console.log(error)
+        toast.error("Something went wrong while signing up.")
       }
-      console.log(res)
     }
   }
   return (
