@@ -21,10 +21,9 @@ import MultipleSelector from "@/components/ui/multipleselect";
 import { toast } from "sonner";
   
   const CreateChannel = () => {
-      const {setSelectedChatType,setSelectedChatData,addChannel} = useAppStore();
+      const {addChannel} = useAppStore();
     const [newChannelModal, setNewChannelModal] =
       useState<boolean>(false);
-    const [searchedContact, setSearchedContact] = useState<Array<any>>([]);
     const [allContacts, setAllContacts] = useState<Array<any>>([]);
     const [selectedContacts, setSelectedContacts] = useState<Array<any>>([]);
     const [channelName, setChannelName] = useState<string>("");
