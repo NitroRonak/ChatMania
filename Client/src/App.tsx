@@ -7,13 +7,13 @@ import {useEffect, useState } from "react";
 import {Loader2} from "lucide-react"
 import { GET_USER_INFO } from "./utils/constants";
 import { apiClient } from "./lib/api-client";
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
   return isAuthenticated ? children : <Navigate to="/auth" />;
 };
 
-const AuthRoute = ({ children }) => {
+const AuthRoute = ({ children }: { children: React.ReactNode }) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
   return isAuthenticated ? <Navigate to="/chat" /> : children;

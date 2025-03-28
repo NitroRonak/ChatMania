@@ -119,6 +119,7 @@ const MessageBar = () => {
               <EmojiPicker
                 onEmojiClick={handleAddEmoji}
                 autoFocusSearch={false}
+                // @ts-ignore
                 theme="dark"
               />
             )}

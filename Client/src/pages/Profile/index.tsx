@@ -73,6 +73,7 @@ const Profile = () => {
   }
 
   const handleFileInputClick = ()=>{
+    // @ts-ignore
     fileUploadRef.current.click();
   };
   const handleImageDelete = async ()=>{
@@ -81,11 +82,12 @@ const Profile = () => {
     })
     if(res.status === 200 && res.data){
       setImage(null);
+      // @ts-ignore
       setUserInfo({...userInfo,image:null})
       toast.success("Image removed successfully.");
     }
   }
-  const handleImageChange = async (event)=>{
+  const handleImageChange = async (event:any)=>{
     const file = event.target.files[0];
     console.log(file);
     if(file){
@@ -99,6 +101,7 @@ const Profile = () => {
         }
       )
       if(res.status === 200 && res.data.image){
+        // @ts-ignore
         setUserInfo({...userInfo,image:res.data.image})
         toast.success("Image updated successfully.")
       }

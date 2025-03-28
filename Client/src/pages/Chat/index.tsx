@@ -10,7 +10,6 @@ const Chat = () => {
   const {
     userInfo,
     selectedChatType,
-    selectedChatData,
     isUploading,
     isDownloading,
     fileUploadProgress,
